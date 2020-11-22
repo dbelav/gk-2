@@ -10,7 +10,6 @@ myFor(0,10)
 
 //task 2
 function sum(a) {
-    console.log(a)
     return (n) => sum(a+n)
 }
 sum(5)(3)(1)(0)
@@ -30,7 +29,8 @@ Array.prototype.myForEach = function(callBack){
         callBack(this[i])
     }
 }
-[1,2,3].myForEach(e => console.log(e))
+let array = [1,2,3]
+array.myForEach(e => console.log(e))
 
 Array.prototype.myMap = function(callBack){
     let mapArray = []
@@ -42,11 +42,38 @@ Array.prototype.myMap = function(callBack){
 
 console.log([1,2,3].myMap(e => e*2))
 
-
-function sort(arr) {
-    let first = arr[0]
-    for (let i = 0; i < arr.length; i++) {
-
+Array.prototype.mySort = function(arr = this) {
+    for (let i = 0, endI = arr.length - 1; i < endI; i++) {
+        let wasSwap = false;
+        for (let j = 0, endJ = endI - i; j < endJ; j++) {
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                wasSwap = true;
+            }
+        }
+        if (!wasSwap) break;
     }
+    return arr;
 }
-sort([1, 2, 5, 1, 3])
+console.log([1, 2, 5, 1, 3, 0, 0].mySort())
+
+Array.prototype.myFilter = function(callBack, arr = this) {
+    let filterArray = []
+    for (let i = 0; i < arr.length; i++) {
+        if (callBack(arr[i])) {
+            filterArray.push(arr[i])
+        }
+    }
+    return filterArray
+}
+console.log([1, 3, 5, 6, 7, 8].myFilter((e => e > 5)))
+
+Array.prototype.myFind = function(callBack, arr = this) {
+    for (let i = 0; i < arr.length; i++) {
+        if (callBack(arr[i])) {
+            return arr[i]
+        }
+    }
+    return undefined
+}
+console.log([1, 3, 5, 6, 7, 8].myFind((e => e > 5)))
